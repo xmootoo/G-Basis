@@ -1,0 +1,243 @@
+\newcommand\catalannumber[3]{
+  % start point, size, Dyck word (size x 2 booleans)
+  \fill[red!25]  (#1) rectangle +(#2,#2);
+  \fill[fill=cyan!60]
+  (#1)
+  \foreach \dir in {#3}{
+    \ifnum\dir=0
+    -- ++(0,1)
+    \else
+    -- ++(1,0)
+    \fi
+  } |- (#1);
+  \draw[help lines] (#1) grid +(#2,#2);
+  \draw[dashed] (#1) -- +(#2,#2);
+  \coordinate (prev) at (#1);
+  \foreach \dir in {#3}{
+    \ifnum\dir=0
+    \coordinate (dep) at (0,1);
+    \else
+    \coordinate (dep) at (1,0);
+    \fi
+    \draw[line width=2pt] (prev) -- ++(dep) coordinate (prev);
+  };
+}
+
+
+\newcommand\myfigone[5]{
+  % start point, size, Dyck word (size x 2 booleans)
+  \fill[red!25]  (#1) rectangle +(#2,#2);
+  \fill[fill=cyan!50]
+  (#1)
+  \foreach \dir in {#3}{
+    \ifnum\dir=0
+    -- ++(0,1)
+    \else
+    -- ++(1,0)
+    \fi
+  } |- (#1);
+  \draw[help lines] (#1) grid +(#2,#2);
+  \draw[solid, semithick] (#1) -- +(#2,#2);
+  \coordinate (prev) at (#1);
+  \foreach \dir in {#3}{
+    \ifnum\dir=0
+    \coordinate (dep) at (0,1);
+    \else
+    \coordinate (dep) at (1,0);
+    \fi
+    \draw[draw = red, line width=2pt] (prev) -- ++(dep) coordinate (prev);
+  };
+  \draw[draw=green!60, very thick] (0, #4 * 2) -- (#4,#4) -- (#4 * 2, 0);
+  \node at (0, #4 + 2) [circle, fill = green!60, scale=0.6]{$L_k$};
+  \draw[draw=blue!40, very thick] (0, #4 * 2 + 1) -- (#5,#5-1) -- (#4 * 2 + 1, 0);
+  \node at (0, #5 + 2) [circle, fill = blue!40, scale=0.6]{$L_d$};
+  \draw[densely dashed, thick, draw=red] (#5, #5-1) -- (#5, #2); % dotted lines
+  \node at (#5, #5-1) [circle, fill=blue!40, scale=0.3]{}; % blue dot
+  \node at (#4, #5-1) [circle, fill=green!60, scale=0.3]{}; % green dot
+}
+
+\newcommand\palpha[5]{
+  % start point, size, Dyck word (size x 2 booleans)
+  \fill[red!25]  (#1) rectangle +(#2 + 1,#2 + 1);
+  \fill[fill=cyan!50]
+  (2,0)
+  \foreach \dir in {#3}{
+    \ifnum\dir=0
+    -- ++(0,1)
+    \else
+    -- ++(1,0)
+    \fi
+  } |- (2,0);
+  \draw[help lines] (#1) grid +(#2 + 1,#2 + 1);
+  \draw[solid, semithick] (2,0) -- +(#2-1,#2-1);
+  \coordinate (prev) at (2,0);
+  \foreach \dir in {#3}{
+    \ifnum\dir=0
+    \coordinate (dep) at (0,1);
+    \else
+    \coordinate (dep) at (1,0);
+    \fi
+    \draw[draw = red, line width=2pt] (prev) -- ++(dep) coordinate (prev);
+  };
+
+
+  \path [name path = Ld, draw=blue!40, very thick] (7-4, 8) -- (7,4) -- (8, 3); %L_d line
+  \node at (7-4, 8) [circle, fill = blue!40, scale=0.8]{$L_d$}; %L_d text
+
+  \path[name path = Lk, draw=green!60, very thick] (0, 8) -- (4,4) -- (8, 0); %L_k line
+  \node at (0, 8) [circle, fill = green!60, scale=0.8]{$L_k$}; %L_k line
+
+  
+
+  \draw[draw=violet, very thick, dashed] plot [smooth] coordinates {(2,0) (2, 1.5)  (2.5, 1.5) (2.5, 2) (3.2, 2.5)};
+  %\draw[draw=violet, very thick, dashed] (2,0) -- (2, 1.5) -- (2.2, 1.5) -- (2.2, 4); % dashed straight beta line
+  
+  % dashed curved beta lines:
+  \draw[draw=violet, very thick, dashed, -to] plot [smooth] coordinates {(2.2,4) (2, 5) (2,6)};
+  \draw[draw=violet, very thick, dashed] plot [smooth] coordinates {(2.2,4) (3, 4.8) (4,5)};
+  \draw[draw=violet, very thick, dashed] plot [smooth] coordinates {(2.2,4) (3, 4.8) (4,5)};
+  \draw[draw=violet, very thick, dashed] plot [smooth] coordinates {(2.2,4) (3.5, 4.3) (5,4)};
+
+  
+
+  
+  \node at (3, 6) [circle, fill=violet, scale=0.3]{};
+  \node at (4, 5) [circle, fill=violet, scale=0.3]{};
+  \node at (5, 4) [circle, fill=violet, scale=0.3]{};
+
+  \draw[draw=violet, very thick] (3,6) -- (3,7);
+  \draw[draw=violet, very thick] (4,5) -- (4,6);
+  \draw[draw=violet, very thick] (5,4) -- (5,5);
+
+  \draw[draw=violet, very thick, dashed] plot [smooth] coordinates {(3,7) (3.1, 7.5) (4,7)};
+
+  %\draw[draw=violet, very thick, dashed] plot [smooth] coordinates {(2.5,4) (3, 4.8) (2,5)};
+  %\draw[draw=green!60, very thick] (3-2, 6-2) -- (6-2,3-2) -- (7-2, 2-2);
+  %\node at (0, #4 + 2) [circle, fill = green!60, scale=0.8]{$L_k$};
+  
+  %\draw[densely dashed, semithick] (#5, #5-1) -- (#5, #2); % dotted lines
+  %\node at (#5, #5-1) [circle, fill=blue!40, scale=0.3]{}; % blue dot
+  %\node at (#4, #5-1) [circle, fill=green!60, scale=0.3]{}; % green dot
+}
+
+\newcommand\palphak[5]{
+  % start point, size, Dyck word (size x 2 booleans)
+  \fill[red!25]  (#1) rectangle +(#2,#2+1);
+  \fill[fill=cyan!50]
+  (#1)
+  \foreach \dir in {#3}{
+    \ifnum\dir=0
+    -- ++(0,1)
+    \else
+    -- ++(1,0)
+    \fi
+  } |- (#1);
+  \draw[help lines] (#1) grid +(#2,#2+1);
+  \draw[solid, semithick] (#1) -- +(#2,#2);
+  \coordinate (prev) at (#1);
+  \foreach \dir in {#3}{
+    \ifnum\dir=0
+    \coordinate (dep) at (0,1);
+    \else
+    \coordinate (dep) at (1,0);
+    \fi
+    \draw[draw = black!30!green, line width=2pt] (prev) -- ++(dep) coordinate (prev);
+  };
+ 
+  \draw[draw = blue!100,  ultra thick] (1,2) -- (1,3); % k line
+  \draw[draw = black!30!green, dashed, ultra thick] (2,3) -- (3,6); % path dashed line
+  \draw[draw=red,densely dashed, very thick] (#5, #5-1) -- (#5, #2+1); % dotted lines
+  \node at (4, 1) [rectangle, fill = black!30!green, scale=0.7]{$\beta = $\texttt{010\textcolor{blue!100}{0}1}$\cdots$};
+
+}
+
+\newcommand\palphakk[5]{
+  % start point, size, Dyck word (size x 2 booleans)
+  \fill[red!25]  (#1) rectangle +(#2,#2+ 1);
+  \fill[fill=cyan!50]
+  (#1)
+  \foreach \dir in {#3}{
+    \ifnum\dir=0
+    -- ++(0,1)
+    \else
+    -- ++(1,0)
+    \fi
+  } |- (#1);
+  \draw[help lines] (#1) grid +(#2,#2+1);
+  \draw[solid, semithick] (#1) -- +(#2,#2);
+  \coordinate (prev) at (#1);
+  \foreach \dir in {#3}{
+    \ifnum\dir=0
+    \coordinate (dep) at (0,1);
+    \else
+    \coordinate (dep) at (1,0);
+    \fi
+    \draw[draw = black!30!green, line width=2pt] (prev) -- ++(dep) coordinate (prev);
+  };
+ 
+  \draw[draw = blue!100,  ultra thick] (1,2) -- (1,3); % k line
+  \draw[draw = black!30!green, dashed, ultra thick] (1,4) -- (3,6); % path dashed line
+  \draw[draw=red,densely dashed, very thick] (#5-1, #5-2) -- (#5-1, #2+1); % dotted lines
+  \node at (4, 1) [rectangle, fill = black!30!green, scale=0.7]{$\beta = $\texttt{010\textcolor{blue!100}{0}0}$\cdots$};
+
+}
+\newcommand\palphakkk[5]{
+  % start point, size, Dyck word (size x 2 booleans)
+  \fill[red!25]  (#1) rectangle +(#2,#2+ 1);
+  \fill[fill=cyan!50]
+  (#1)
+  \foreach \dir in {#3}{
+    \ifnum\dir=0
+    -- ++(0,1)
+    \else
+    -- ++(1,0)
+    \fi
+  } |- (#1);
+  \draw[help lines] (#1) grid +(#2,#2+1);
+  \draw[solid, semithick] (#1) -- +(#2,#2);
+  \coordinate (prev) at (#1);
+  \foreach \dir in {#3}{
+    \ifnum\dir=0
+    \coordinate (dep) at (0,1);
+    \else
+    \coordinate (dep) at (1,0);
+    \fi
+    \draw[draw = black!30!green, line width=2pt] (prev) -- ++(dep) coordinate (prev);
+  };
+ 
+  \draw[draw = blue!100,  ultra thick] (0,3) -- (0,4); % k line
+  \draw[draw = black!30!green, dashed, ultra thick] (1,4) -- (3,6); % path dashed line
+  \draw[draw=red,densely dashed, very thick] (#5, #5-1) -- (#5, #2+1); % dotted lines
+  \node at (4, 1) [rectangle, fill = black!30!green, scale=0.7]{$\beta = $\texttt{000\textcolor{blue!100}{0}1}$\cdots$};
+
+}
+\newcommand\palphakkkk[5]{
+  % start point, size, Dyck word (size x 2 booleans)
+  \fill[red!25]  (#1) rectangle +(#2,#2+ 1);
+  \fill[fill=cyan!50]
+  (#1)
+  \foreach \dir in {#3}{
+    \ifnum\dir=0
+    -- ++(0,1)
+    \else
+    -- ++(1,0)
+    \fi
+  } |- (#1);
+  \draw[help lines] (#1) grid +(#2,#2+1);
+  \draw[solid, semithick] (#1) -- +(#2,#2);
+  \coordinate (prev) at (#1);
+  \foreach \dir in {#3}{
+    \ifnum\dir=0
+    \coordinate (dep) at (0,1);
+    \else
+    \coordinate (dep) at (1,0);
+    \fi
+    \draw[draw = black!30!green, line width=2pt] (prev) -- ++(dep) coordinate (prev);
+  };
+ 
+  \draw[draw = blue!100,  ultra thick] (0,3) -- (0,4); % k line
+  \draw[draw = black!30!green, dashed, ultra thick] (0,5) -- (3,6); % path dashed line
+  \draw[draw=red,densely dashed, very thick] (#5-1, #5-2) -- (#5-1, #2+1); % dotted lines
+  \node at (4, 1) [rectangle, fill = black!30!green, scale=0.7]{$\beta = $\texttt{000\textcolor{blue!100}{0}0}$\cdots$};
+
+}
